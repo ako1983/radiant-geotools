@@ -92,7 +92,8 @@ RUN git clone --recursive https://github.com/dmlc/xgboost && \
     make -j4 && \
     cd python-package && \
     python3 setup.py install
-    
+
+RUN mkdir ~/.aws
 
 # Set up our notebook config.
 COPY jupyter_notebook_config.py /root/.jupyter/
