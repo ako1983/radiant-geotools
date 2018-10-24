@@ -4,12 +4,6 @@ MAINTAINER Radiant Earth Foundation<code@radiant.earth>
 
 # version settings
 # ARG PYTHON_VERSION=3.5
-# ARG TENSORFLOW_ARCH=cpu
-# ARG TENSORFLOW_VERSION=1.2.1
-# ARG PYTORCH_VERSION=v0.2
-# ARG MXNET_VERISON=latest
-# ARG KERAS_VERSION=1.2.0
-
 
 
 # install dependencies
@@ -99,20 +93,11 @@ RUN git clone --recursive https://github.com/dmlc/xgboost && \
     cd python-package && \
     python3 setup.py install
 
-
-# install tensorflow and keras
-# RUN pip3 --no-cache-dir install tensorflow && \
-#     pip3 --no-cache-dir install keras
-
-# install mxnet
-# RUN pip3 --no-cache-dir install mxnet  && \
-#     pip3 --no-cache-dir install graphviz
-
-# install pytorch
-# RUN pip3 --no-cache-dir install http://download.pytorch.org/whl/cu80/torch-0.3.0.post4-cp35-cp35m-linux_x86_64.whl && \ 
-#     pip3 --no-cache-dir install torchvision
-
-
+# Set up AWS credentials
+RUN mkdir ~/.aws
+RUN   echo "[default]" >> ~/.aws/credentials
+RUN   echo "aws_access_key_id = AKIAIKZLAR3PPQLW6OEA" >> ~/.aws/credentials
+RUN   echo "aws_secret_access_key = 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" >> ~/.aws/credentials
 
 # Set up our notebook config.
 COPY jupyter_notebook_config.py /root/.jupyter/
@@ -121,17 +106,16 @@ COPY jupyter_notebook_config.py /root/.jupyter/
 # We just add a little wrapper script.
 COPY run_jupyter.sh /
 
-# TensorBoard
-EXPOSE 6006
 # jupyter noteboook
 EXPOSE 8888
 
 RUN mkdir /workdir
+RUN mkdir /workdir/geojsons
 
 WORKDIR "/workdir"   
 
 COPY webinar-v1.0.ipynb /workdir
 
-COPY ATG.geojson /workdir/geojson
+COPY ATG.geojson /workdir/geojsons
 
 CMD ["/run_jupyter.sh", "--allow-root"]
