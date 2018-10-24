@@ -92,12 +92,7 @@ RUN git clone --recursive https://github.com/dmlc/xgboost && \
     make -j4 && \
     cd python-package && \
     python3 setup.py install
-
-# Set up AWS credentials
-RUN mkdir ~/.aws
-RUN   echo "[default]" >> ~/.aws/credentials
-RUN   echo "aws_access_key_id = AKIAIKZLAR3PPQLW6OEA" >> ~/.aws/credentials
-RUN   echo "aws_secret_access_key = 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" >> ~/.aws/credentials
+    
 
 # Set up our notebook config.
 COPY jupyter_notebook_config.py /root/.jupyter/
