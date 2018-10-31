@@ -109,6 +109,7 @@ RUN mkdir /workdir
 RUN mkdir /workdir/geojsons
 
 WORKDIR "/workdir"   
+ 
 
 COPY webinar-v1.0.ipynb /workdir
 
